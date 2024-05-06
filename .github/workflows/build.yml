@@ -64,7 +64,7 @@ jobs:
           export CC=${cgo_cc}
           export CGO_ENABLED=1
           export GOARM=${arm}
-          go build -o memos -a -ldflags="-s -w $muslflags" -tags=jsoniter .
+          go build -o memos -a -ldflags="-s -w $muslflags" -tags=jsoniter ./bin/memos/main.go
           rm -f artifact/memos && cp memos artifact/memos && cd artifact && tar -czvf ../memos-$os_arch.tar.gz * && cd ..
         done
 
@@ -166,7 +166,7 @@ jobs:
           export GOARCH=${os_arch##*-}
           export CC=${cgo_cc}
           export CGO_ENABLED=1
-          go build -o memos -a -ldflags="-s -w $muslflags" -tags=jsoniter .
+          go build -o memos -a -ldflags="-s -w $muslflags" -tags=jsoniter ./bin/memos/main.go
           rm -f artifact/memos && cp memos artifact/memos && cd artifact && tar -czvf ../memos-$os_arch.tar.gz * && cd ..
         done
         GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -o memos ./bin/memos/main.go && rm -f artifact/memos && cp memos artifact/memos && cd artifact && tar -czvf ../memos-windows-amd64.tar.gz * && cd ..
@@ -250,7 +250,7 @@ jobs:
           ln -s /usr/local/go/bin/go /usr/local/bin/go
         run: |
           cd memos
-          GOOS=freebsd GOARCH=amd64 CC="cc" CXX="c++" AR="ar" CGO_LDFLAGS="-static" go build -o memos -a -ldflags "-s -w -extldflags '-static'" .
+          GOOS=freebsd GOARCH=amd64 CC="cc" CXX="c++" AR="ar" CGO_LDFLAGS="-static" go build -o memos -a -ldflags "-s -w -extldflags '-static'" -tags=jsoniter ./bin/memos/main.go
           cp memos artifact/memos && cd artifact && tar -czvf ../memos-freebsd-amd64.tar.gz * && cd ..
 
     - name: Upload artifact
